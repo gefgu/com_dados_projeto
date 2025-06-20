@@ -70,6 +70,8 @@ if message:
 
     # T5: Converter para binário (ASCII estendido)
     binary_msg = " ".join(format(ord(c), "08b") for c in encrypted)
+    #binary_msg = "1100001000000000" # Sequência binária da aula de apresentação sem a criptografia
+
     st.subheader("Mensagem em Binário")
     st.write(binary_msg)
 
