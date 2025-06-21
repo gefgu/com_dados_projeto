@@ -33,7 +33,7 @@ def decrypt_message(encrypted_message):
 
 def encode_line_code(binary_string):
     
-    signal = [] # Inicializando a lista do sinal.
+    signal = [] # Inicializando a lista do sinal
     last_polarity = -1 # Iniciando com polaridade negativa (Mas é apenas uma convenção)
     zero_count = 0 # Contador de zeros consecutivos
     one_count = 0 # Contador dos pulsos
