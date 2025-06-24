@@ -70,15 +70,15 @@ if message:
 
     # T5: Converter para binário (ASCII estendido)
     binary_msg = " ".join(format(ord(c), "08b") for c in encrypted)
-    #binary_msg = "1100001000000000" # Sequência binária da aula de apresentação sem a criptografia
+    # binary_msg = "1100001000000000" # Sequência binária da aula de apresentação sem a criptografia
 
     st.subheader("Mensagem em Binário")
     st.write(binary_msg)
 
     # Visualize binary data
     binary_fig = plot_binary_signal(
-        binary_msg[: min(64, len(binary_msg.replace(" ", "")))],
-        title="Amostra dos primeiros bits da mensagem",
+        binary_msg,
+        title="Bits da mensagem",
     )
     st.pyplot(binary_fig)
 
