@@ -1,34 +1,54 @@
 import numpy as np
 
 
-def encrypt_message(message):
+def encrypt_message(message, shift=3):
     """
-    Encrypt a message using a placeholder encryption algorithm.
-
+    Criptografa uma mensagem usando a Cifra de César
+    
     Args:
-        message (str): The original message to encrypt
-
+        message (str): Mensagem a ser criptografada
+        shift (int): Número de posições para deslocar (padrão: 3)
+    
     Returns:
-        str: The encrypted message
+        str: Mensagem criptografada
     """
-    # Placeholder for actual encryption
-    # In a real implementation, this would use a proper encryption algorithm
-    return message  # For now, just return the original message
+    encrypted = ""
+    
+    for char in message:
+        if char.isalpha():
+            # Determina se é maiúscula ou minúscula
+            is_upper = char.isupper()
+            char = char.upper()
+            
+            # Aplica o deslocamento (A=0, B=1, ..., Z=25)
+            shifted = (ord(char) - ord('A') + shift) % 26
+            encrypted_char = chr(shifted + ord('A'))
+            
+            # Mantém a capitalização original
+            if not is_upper:
+                encrypted_char = encrypted_char.lower()
+                
+            encrypted += encrypted_char
+        else:
+            # Mantém caracteres não alfabéticos como estão
+            encrypted += char
+    
+    return encrypted
 
 
-def decrypt_message(encrypted_message):
+def decrypt_message(encrypted_message, shift=3):
     """
-    Decrypt a message that was encrypted with encrypt_message.
-
+    Descriptografa uma mensagem usando a Cifra de César
+    
     Args:
-        encrypted_message (str): The encrypted message
-
+        encrypted_message (str): Mensagem criptografada
+        shift (int): Número de posições usadas na criptografia (padrão: 3)
+    
     Returns:
-        str: The decrypted (original) message
+        str: Mensagem descriptografada
     """
-    # Placeholder for actual decryption
-    # In a real implementation, this would use the corresponding decryption algorithm
-    return encrypted_message  # For now, just return the original message
+    # Para descriptografar, usamos o deslocamento negativo
+    return encrypt_message(encrypted_message, -shift)
 
 
 def encode_line_code(binary_string):
