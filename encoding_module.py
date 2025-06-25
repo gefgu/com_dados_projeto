@@ -1,54 +1,47 @@
 import numpy as np
 
-
+# Criptografa uma mensagem usando a Cifra de César com ASCII estendido (256 caracteres)
+# Substitui espaços por ~ antes da criptografia para evitar problemas
 def encrypt_message(message, shift=3):
-    """
-    Criptografa uma mensagem usando a Cifra de César
+    #Substitui todos os espaços por ~
+    message_no_spaces = message.replace(' ', '~')
     
-    Args:
-        message (str): Mensagem a ser criptografada
-        shift (int): Número de posições para deslocar (padrão: 3)
-    
-    Returns:
-        str: Mensagem criptografada
-    """
     encrypted = ""
     
-    for char in message:
-        if char.isalpha():
-            # Determina se é maiúscula ou minúscula
-            is_upper = char.isupper()
-            char = char.upper()
-            
-            # Aplica o deslocamento (A=0, B=1, ..., Z=25)
-            shifted = (ord(char) - ord('A') + shift) % 26
-            encrypted_char = chr(shifted + ord('A'))
-            
-            # Mantém a capitalização original
-            if not is_upper:
-                encrypted_char = encrypted_char.lower()
-                
-            encrypted += encrypted_char
-        else:
-            # Mantém caracteres não alfabéticos como estão
-            encrypted += char
+    for char in message_no_spaces:
+        # Pega o código ASCII do caractere (0-255)
+        ascii_code = ord(char)
+        
+        # Aplica o deslocamento no conjunto completo ASCII (0-255)
+        shifted_code = (ascii_code + shift) % 256
+        
+        # Converte de volta para caractere
+        encrypted_char = chr(shifted_code)
+        encrypted += encrypted_char
     
     return encrypted
 
 
+# Descriptografa considerando ASCII estendido
+# Restaura os espaços substituindo ~ por espaço
 def decrypt_message(encrypted_message, shift=3):
-    """
-    Descriptografa uma mensagem usando a Cifra de César
+    decrypted = ""
     
-    Args:
-        encrypted_message (str): Mensagem criptografada
-        shift (int): Número de posições usadas na criptografia (padrão: 3)
+    for char in encrypted_message:
+        # Pega o código ASCII do caractere criptografado
+        ascii_code = ord(char)
+        
+        # Aplica o deslocamento negativo no conjunto completo ASCII (0-255)
+        original_code = (ascii_code - shift) % 256
+        
+        # Converte de volta para caractere original
+        decrypted_char = chr(original_code)
+        decrypted += decrypted_char
     
-    Returns:
-        str: Mensagem descriptografada
-    """
-    # Para descriptografar, usamos o deslocamento negativo
-    return encrypt_message(encrypted_message, -shift)
+    #Substitui todos os ~ de volta por espaços
+    decrypted = decrypted.replace('~', ' ')
+    
+    return decrypted
 
 
 def encode_line_code(binary_string):
