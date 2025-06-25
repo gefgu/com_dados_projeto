@@ -1,14 +1,10 @@
 import numpy as np
 
 # Criptografa uma mensagem usando a Cifra de César com ASCII estendido (256 caracteres)
-# Substitui espaços por ~ antes da criptografia para evitar problemas
-def encrypt_message(message, shift=3):
-    #Substitui todos os espaços por ~
-    message_no_spaces = message.replace(' ', '~')
-    
+def encrypt_message(message, shift=3): #usamos  como deslocamento padrão
     encrypted = ""
     
-    for char in message_no_spaces:
+    for char in message:
         # Pega o código ASCII do caractere (0-255)
         ascii_code = ord(char)
         
@@ -21,9 +17,7 @@ def encrypt_message(message, shift=3):
     
     return encrypted
 
-
 # Descriptografa considerando ASCII estendido
-# Restaura os espaços substituindo ~ por espaço
 def decrypt_message(encrypted_message, shift=3):
     decrypted = ""
     
@@ -38,11 +32,7 @@ def decrypt_message(encrypted_message, shift=3):
         decrypted_char = chr(original_code)
         decrypted += decrypted_char
     
-    #Substitui todos os ~ de volta por espaços
-    decrypted = decrypted.replace('~', ' ')
-    
     return decrypted
-
 
 def encode_line_code(binary_string):
     
@@ -73,8 +63,6 @@ def encode_line_code(binary_string):
                 signal.append(0.0) # Adiciona um zero ao sinal
         
     return np.array(signal, dtype=np.float32) # Retorna o sinal como um array NumPy de float32 para melhor compatibilidade com bibliotecas de processamento de sinal
-
-
 
 def decode_line_code(signal):
     
