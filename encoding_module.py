@@ -87,6 +87,7 @@ def decode_line_code(signal):
     
     binary_string = "" # Inicializando a string binária
     zero_count = 0 # Contador de zeros consecutivos
+    last_polarity = None # Variável para armazenar a polaridade do último pulso
 
     i = 0 
     while i < len(signal): # Iterando sobre o sinal
@@ -103,10 +104,11 @@ def decode_line_code(signal):
                 signal[i + 3] == sample): # Verifica se é o caso do B00V (com B e V pulsos da mesma polaridade)
 
                 binary_string += "0000" # Adiciona 4 zeros à string binária (que era violação alterada dos 4 zeros consecutivos)
+                last_polarity = sample # Atualiza a polaridade do último pulso
                 i += 4
                 zero_count = 0
 
-            elif zero_count == 3: # Verifica se é o caso do 000V (com um pulso seguindo os 3 zeros consecutivos)
+            elif zero_count == 3 and sample == last_polarity: # Verifica se é o caso do 000V (com um pulso seguindo os 3 zeros consecutivos)
                 binary_string = binary_string[:-3] + "0000" # Coloca os 4 zeros consecutivos na string binária
                 i += 1
                 zero_count = 0
@@ -114,6 +116,7 @@ def decode_line_code(signal):
             else: # Caso seja um pulso isolado ou após zeros sem restrição
                 binary_string += "1" # De forma normal adiciona um 1 à string binária
                 zero_count = 0
+                last_polarity = sample
                 i += 1
 
     return binary_string
